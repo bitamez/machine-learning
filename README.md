@@ -28,8 +28,8 @@ The main objective is to develop a multiclass classification model that can dist
 | No. | Student Name | Student ID | Responsibility |
 |---|---|---|---|
 | 1 | Meseret Mezgebu | 1349/16 | FAULT Analysis |
-| 2 | Hawlet Yimam | 1001 | WARNING Analysis |
-| 3 | Ekram Yasin | 0638 | NORMAL Analysis |
+| 2 | Hawlet Yimam | 1001/16 | WARNING Analysis |
+| 3 | Ekram Yasin | 0638/16 | NORMAL Analysis |
 
 Each team member worked on a separate pump-condition analysis. Their contributions were integrated into one project repository and combined classification workflow.
 

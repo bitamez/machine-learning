@@ -1,107 +1,91 @@
-# FAULT Analysis – Pump Condition Classification
+# FAULT Condition Analysis
 
 ## 1. Overview
 
-This folder contains the exploratory data analysis and preprocessing work for the FAULT class in the Pump Condition Classification project.
+This directory contains the FAULT-condition analysis component of the Pump Condition Classification System.
 
-The project uses pump sensor measurements to study machine operating conditions and support classification into three classes:
+**Responsible team member:** Meseret Mezgebu  
+**Student ID:** 1349/16
 
-- FAULT
-- WARNING
-- NORMAL
+The purpose of this component is to investigate pump sensor observations associated with the BROKEN condition in the original dataset.
 
 ## 2. Dataset
 
-The analysis uses the shared `sensor.csv` dataset.
+The original dataset contains seven BROKEN observations.
 
-The original dataset contains:
-- 220,320 observations
-- 52 sensor columns
-- One timestamp column
-- One machine status column
-- Original statuses: NORMAL, RECOVERING, and BROKEN
+These observations are mapped to the project label:
 
-The original dataset is kept unchanged.
+`BROKEN → FAULT`
 
-## 3. FAULT Data
+The fault analysis uses the original pump sensor measurements and their associated timestamps.
 
-The original dataset contains only 7 observations with the status BROKEN.
+## 3. Analysis Objectives
 
-For the FAULT contribution, these BROKEN observations are extracted and relabeled as FAULT.
+- Identify FAULT observations.
+- Examine sensor values associated with FAULT conditions.
+- Analyze sensor statistics.
+- Investigate missing sensor measurements.
+- Produce fault-related analysis outputs.
+- Contribute FAULT observations to the combined classification dataset.
 
-**Important:** The seven recorded BROKEN observations are not sufficient by themselves to train a reliable FAULT classification model.
-
-## 4. Exploratory Data Analysis
-
-The following analyses were performed:
-
-1. Dataset structure and data type inspection.
-2. Missing-value analysis.
-3. Duplicate-record inspection.
-4. Machine-status distribution analysis.
-5. Inspection of the seven BROKEN observations.
-6. Sensor distribution visualizations.
-7. Comparison of FAULT and NORMAL sensor averages.
-8. Analysis of sensor readings during the 30 minutes before each recorded failure.
-9. Comparison of pre-FAULT sensor averages with overall NORMAL averages.
-10. Identification of sensors frequently appearing among the top 10 largest differences.
-
-## 5. Main Findings
-
-The sensors most frequently appearing among the top 10 differences across the seven events were:
-
-| Sensor | Number of events |
-|---|---:|
-| sensor_01 | 5 |
-| sensor_04 | 4 |
-| sensor_02 | 4 |
-| sensor_00 | 4 |
-| sensor_38 | 3 |
-| sensor_46 | 3 |
-| sensor_36 | 3 |
-
-These results indicate differences in sensor readings before some recorded failures. They do not establish that these sensors reliably predict failures.
-
-## 6. Preprocessing
-
-The preprocessing code is located in:
-
-`src/fault_preprocessing.py`
-
-It includes functions to:
-
-- Inspect the dataset.
-- Extract records originally labeled BROKEN.
-- Relabel the extracted records as FAULT.
-- Remove the unnecessary index column, if present.
-- Remove sensor columns that are completely empty within the extracted FAULT records.
-
-Missing sensor readings are not automatically replaced with zero or other values in this preprocessing step.
-
-## 7. Limitations
-
-- Only seven BROKEN observations are available.
-- Failure examples are extremely limited.
-- Different failure events show different sensor patterns.
-- Sensor differences from NORMAL averages do not prove predictive relationships.
-- Additional failure data and appropriate validation are needed for reliable model development.
-- WARNING labeling must follow the team's agreed definition; RECOVERING should not automatically be treated as WARNING.
-
-## 8. Team Integration
-
-The FAULT contribution will be combined with the WARNING and NORMAL contributions prepared by the other team members.
-
-The final project should use one consistent feature set, agreed labeling rules, and one combined multiclass classification model.
-
-## 9. Project Structure
+## 4. Directory Structure
 
 ```text
 fault/
+│
+├── README.md
+│
 ├── data/
+│   ├── sensor.csv
+│   └── combined_sensor_data.csv
+│
+├── src/
+│   ├── fault_preprocessing.py
+│   └── train_model.py
+│
 ├── notebooks/
 │   └── fault_analysis.ipynb
-├── src/
-│   └── fault_preprocessing.py
-├── outputs/
-└── README.md
+│
+├── models/
+│   └── pump_condition_model.pkl
+│
+└── outputs/
+    ├── fault_records.csv
+    ├── fault_sensor_frequency.csv
+    ├── confusion_matrix.csv
+    └── model_predictions.csv
 ```
+
+## 5. Preprocessing
+
+The fault observations are identified using the original `machine_status` column.
+
+The agreed project mapping is:
+
+- BROKEN → FAULT
+
+The combined classification workflow also handles missing sensor values using median imputation fitted on training data.
+
+## 6. Classification Contribution
+
+The FAULT class is included in the combined Random Forest classification model.
+
+The original dataset contains only seven FAULT observations, which creates a severe class imbalance.
+
+In the chronological 50/50 experiment:
+
+- Training FAULT observations: 4
+- Testing FAULT observations: 3
+- Correctly classified test FAULT observations: 0
+
+Therefore, the current model has not demonstrated reliable FAULT detection.
+
+## 7. Outputs
+
+The fault analysis and combined model outputs are stored in the `outputs/` directory.
+
+These include fault-related records, sensor frequency information, the confusion matrix, and model predictions.
+
+## 8. Conclusion
+
+This component contributes the FAULT class to the combined pump-condition classification project. The limited number of original failure observations remains a major challenge for reliable fault classification.
